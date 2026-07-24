@@ -13,6 +13,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "FantasyAI",
     idePackagePrefix := Some("io.github.brett9897.fantasyai"),
+    dockerBaseImage := "eclipse-temurin:21-jre",
     libraryDependencies ++= Seq(
       // Configuration loader
       "is.cir"        %% "ciris"               % cirisVersion,
