@@ -9,6 +9,7 @@ val scalatagsVersion = "0.13.1"
 val http4sScalatagsVersion = "0.25.3"
 
 lazy val root = (project in file("."))
+  .enablePlugins(JavaAppPackaging, DockerPlugin)
   .settings(
     name := "FantasyAI",
     idePackagePrefix := Some("io.github.brett9897.fantasyai"),
