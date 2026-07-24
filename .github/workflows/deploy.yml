@@ -46,8 +46,8 @@ jobs:
 
       - name: Tag and Push Container
         run: |
-          IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME}}/{{ env.SERVICE_NAME }}:${{ github.sha }}"
-          docker tag fantasy-sports-ai:0.1.0-SNAPSHOT $IMAGE
+          IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME}}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
+          docker tag fantasyai:0.1.0-SNAPSHOT $IMAGE
           docker push $IMAGE
 
       - name: Deploy to Cloud Run
