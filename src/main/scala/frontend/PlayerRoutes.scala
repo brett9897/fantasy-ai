@@ -26,7 +26,8 @@ class PlayerRoutes(repo: PlayerRepository):
               attr("hx-target") := "#stats-container",
               "Load Advanced Metrics"
             ),
-            div(id := "stats-container", cls := "mt-4 text-sm text-gray-500")
+            div(id := "stats-container", cls := "mt-4 text-sm text-gray-500"),
+            div(p("Another Div"))
           )
 
           Ok(htmlResponse)
