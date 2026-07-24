@@ -5,11 +5,12 @@ import cats.effect.IO
 import org.http4s.*
 import org.http4s.dsl.io.*
 import domain.*
+import infrastructure.FeatureFlags
 
 import _root_.scalatags.Text.all.*
 import org.http4s.scalatags.*
 
-class PlayerRoutes(repo: PlayerRepository):
+class PlayerRoutes(repo: PlayerRepository, flags: FeatureFlags):
   val routes: HttpRoutes[IO] = HttpRoutes.of[IO] {
     case GET -> Root / "players" / UUIDVar(playerIdVal) =>
       val playerId = PlayerId(playerIdVal)
@@ -27,7 +28,6 @@ class PlayerRoutes(repo: PlayerRepository):
               "Load Advanced Metrics"
             ),
             div(id := "stats-container", cls := "mt-4 text-sm text-gray-500"),
-            div(p("Another Div"))
           )
 
           Ok(htmlResponse)
