@@ -10,7 +10,7 @@ export default defineConfig({
             "./frontend/features/**/*.scala",
             "./main.css"
         ], {
-            delay: 1000
+            delay: 2000
         })
     ],
     server: {

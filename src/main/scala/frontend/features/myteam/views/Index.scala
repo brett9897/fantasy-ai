@@ -2,7 +2,7 @@ package io.github.brett9897.fantasyai
 package frontend.features.myteam.views
 
 import scalatags.Text
-import scalatags.Text.all.{tr, *}
+import scalatags.Text.all.*
 import frontend.features.myteam.viewmodels.MyTeamPlayerView
 
 def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[String] = {
@@ -26,23 +26,23 @@ def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[Strin
     ),
     body(cls := "bg-gray-100 p-8")(
       div(cls := "max-w-4xl mx-auto bg-white rounded shadow")(
-        h1("My Roster"),
-        table(
-          thead(
+        h1(cls := "text-2xl font-bold p-4 border-b")("My Roster"),
+        table(cls := "w-full text-left border-collapse")(
+          thead(cls := "bg-gray-50")(
             tr(
-              th("Name"),
-              th("Age"),
-              th("Position"),
-              th("Team")
+              th(cls := "p-4 border-b font-semibold text-gray-600")("Name"),
+              th(cls := "p-4 border-b font-semibold text-gray-600")("Age"),
+              th(cls := "p-4 border-b font-semibold text-gray-600")("Position"),
+              th(cls := "p-4 border-b font-semibold text-gray-600")("Team")
             )
           ),
           tbody(
             players.map { player =>
-              tr(
-                td(player.name),
-                td(player.age),
-                td(player.position),
-                td(player.proTeam)
+              tr(cls := "hover:bg-gray-50")(
+                td(cls := "p-4 border-b font-medium")(player.name),
+                td(cls := "p-4 border-b font-medium")(player.age),
+                td(cls := "p-4 border-b font-medium")(player.position),
+                td(cls := "p-4 border-b font-medium")(player.proTeam)
               )
             }
           )
