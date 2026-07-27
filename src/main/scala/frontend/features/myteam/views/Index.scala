@@ -3,8 +3,9 @@ package frontend.features.myteam.views
 
 import scalatags.Text
 import scalatags.Text.all.{tr, *}
+import frontend.features.myteam.viewmodels.MyTeamPlayerView
 
-def Index(): Text.TypedTag[String] =
+def Index(players: List[MyTeamPlayerView]): Text.TypedTag[String] =
   html(
     head(
       tag("title")("Fantasy AI | My Team")
@@ -22,24 +23,14 @@ def Index(): Text.TypedTag[String] =
             )
           ),
           tbody(
-            tr(
-              td("Bobby Witt Jr."),
-              td(26),
-              td("SS"),
-              td("KCR")
-            ),
-            tr(
-              td("Jackson Holliday"),
-              td(22),
-              td("2B/SS"),
-              td("BAL")
-            ),
-            tr(
-              td("Paul Skenes"),
-              td(24),
-              td("SP"),
-              td("PIT")
-            )
+            players.map { player =>
+              tr(
+                td(player.name),
+                td(player.age),
+                td(player.position),
+                td(player.proTeam)
+              )
+            }
           )
         )
       )
