@@ -1,10 +1,13 @@
 package io.github.brett9897.fantasyai
 
 import cats.effect.{IO, IOApp}
+import cats.syntax.all.toSemigroupKOps
 import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.server.Router
+import org.http4s.HttpRoutes
+import org.http4s.server.staticcontent.resourceServiceBuilder
 import com.comcast.ip4s.*
-import infrastructure.{InMemoryPlayerRepository, EnvVarFeatureFlags}
+import infrastructure.{EnvVarFeatureFlags, InMemoryPlayerRepository}
 import frontend.PlayerRoutes
 import frontend.features.myteam.MyTeamRoutes
 import config.AppConfig
@@ -12,16 +15,19 @@ import config.AppConfig
 object Main extends IOApp.Simple:
 
   def run: IO[Unit] =
+    val assetRoutes: HttpRoutes[IO] =
+      resourceServiceBuilder[IO]("/public").toRoutes
+      
     for
       config <- AppConfig.load
 
       flags = new EnvVarFeatureFlags(config.enableAdvancedStats)
       repo <- InMemoryPlayerRepository.make
-
-      httpApp = Router(
+      
+      httpApp = (Router(
         "" -> PlayerRoutes(repo, flags).routes,
         "" -> MyTeamRoutes().routes
-      ).orNotFound
+      ) <+> assetRoutes).orNotFound
 
       _ <- IO.println(s"Starting Fantasy Sports AI on http://localhost:${config.port}")
       _ <- EmberServerBuilder

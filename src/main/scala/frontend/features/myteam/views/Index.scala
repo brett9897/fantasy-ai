@@ -8,10 +8,11 @@ import frontend.features.myteam.viewmodels.MyTeamPlayerView
 def Index(players: List[MyTeamPlayerView]): Text.TypedTag[String] =
   html(
     head(
-      tag("title")("Fantasy AI | My Team")
+      tag("title")("Fantasy AI | My Team"),
+      link(rel := "stylesheet", href := "/assets/app.css")
     ),
     body(
-      div(
+      div(cls := "bg-gray-100 p-8")(
         h1("My Roster"),
         table(
           thead(

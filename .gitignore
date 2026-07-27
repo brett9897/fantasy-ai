@@ -45,3 +45,11 @@ build/
 
 ### Scala ###
 .bsp/
+
+### Node Modules ###
+**/src/**/node_modules/
+
+### Public Assets ###
+/src/main/scala/frontend/resources/public/assets/*.js
+/src/main/scala/frontend/resources/public/assets/*.ts
+/src/main/scala/frontend/resources/public/assets/*.css
