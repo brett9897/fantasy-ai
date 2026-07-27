@@ -5,8 +5,8 @@ import cats.effect.IO
 import org.http4s.HttpRoutes
 import org.http4s.dsl.io.*
 
-class MyTeamRoutes:
+class MyTeamRoutes(isDev: Boolean):
   val routes: HttpRoutes[IO] = HttpRoutes.of[IO] {
     case GET -> Root / "my_team" =>
-      MyTeamHandlers.handleMyTeamIndexGet()
+      MyTeamHandlers.handleMyTeamIndexGet(isDev)
   }

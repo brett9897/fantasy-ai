@@ -11,7 +11,7 @@ import views.*
 import java.util.UUID
 
 object MyTeamHandlers {
-    def handleMyTeamIndexGet(): IO[Response[IO]] = {
+    def handleMyTeamIndexGet(isDev: Boolean): IO[Response[IO]] = {
       val hardCodedRoster: List[MyTeamPlayerView] = List(
         MyTeamPlayerView(
           id = UUID.randomUUID(),
@@ -36,7 +36,7 @@ object MyTeamHandlers {
         )
       )
       
-      val htmlResponse = Index(hardCodedRoster)
+      val htmlResponse = Index(isDev)(hardCodedRoster)
       Ok(htmlResponse)
     }
 }

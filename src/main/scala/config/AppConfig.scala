@@ -7,6 +7,7 @@ import ciris.*
 import com.comcast.ip4s.{Port, port}
 
 case class AppConfig(
+  isDevelopment: Boolean,
   port: Port,
   enableAdvancedStats: Boolean
 )
@@ -16,6 +17,10 @@ object AppConfig:
     ConfigDecoder[String, Int].mapOption("Port")(Port.fromInt)
 
   def load: IO[AppConfig] =
+    val environmentConfig = env("ENVIRONMENT")
+      .as[String]
+      .default("")
+
     val portConfig = env("PORT")
       .as[Port]
       .default(port"8080")
@@ -24,6 +29,8 @@ object AppConfig:
       .as[Boolean]
       .default(false)
 
-    (portConfig, statsToggleConfig).parMapN { (port, statsToggle) =>
-      AppConfig(port, statsToggle)
+    (environmentConfig, portConfig, statsToggleConfig).parMapN { (environment, port, statsToggle) =>
+      val isDevelopment = environment.toUpperCase() == "DEVELOPMENT"
+
+      AppConfig(isDevelopment, port, statsToggle)
     }.load[IO]

@@ -5,14 +5,27 @@ import scalatags.Text
 import scalatags.Text.all.{tr, *}
 import frontend.features.myteam.viewmodels.MyTeamPlayerView
 
-def Index(players: List[MyTeamPlayerView]): Text.TypedTag[String] =
+def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[String] = {
+  val assetTags: Seq[Frag] =
+    if isDev then
+      Seq(
+        script(`type` := "module", src := "http://localhost:5173/@vite/client"),
+        link(rel := "stylesheet", href := "http://localhost:5173/main.css")
+      )
+    else
+      Seq(
+        link(rel := "stylesheet", href := "/assets/app.css")
+      )
+
   html(
     head(
       tag("title")("Fantasy AI | My Team"),
-      link(rel := "stylesheet", href := "/assets/app.css")
+      meta(charset := "UTF-8"),
+      meta(name := "viewport", content := "width=device-width, initial-scale=1.0"),
+      assetTags
     ),
-    body(
-      div(cls := "bg-gray-100 p-8")(
+    body(cls := "bg-gray-100 p-8")(
+      div(cls := "max-w-4xl mx-auto bg-white rounded shadow")(
         h1("My Roster"),
         table(
           thead(
@@ -37,3 +50,4 @@ def Index(players: List[MyTeamPlayerView]): Text.TypedTag[String] =
       )
     )
   )
+      }

@@ -26,7 +26,7 @@ object Main extends IOApp.Simple:
       
       httpApp = (Router(
         "" -> PlayerRoutes(repo, flags).routes,
-        "" -> MyTeamRoutes().routes
+        "" -> MyTeamRoutes(config.isDevelopment).routes
       ) <+> assetRoutes).orNotFound
 
       _ <- IO.println(s"Starting Fantasy Sports AI on http://localhost:${config.port}")
