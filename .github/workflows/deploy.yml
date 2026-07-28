@@ -26,6 +26,19 @@ jobs:
       - name: Setup sbt
         uses: sbt/setup-sbt@v1
 
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'yarn'
+          cache-dependency-path: src/main/scala/frontend/yarn.lock
+
+      - name: Build Frontend
+        working-directory: src/main/scala/frontend
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+
       - name: Run Tests
         run: sbt test
 
