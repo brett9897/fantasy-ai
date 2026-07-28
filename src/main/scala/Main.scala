@@ -10,7 +10,7 @@ import com.comcast.ip4s.*
 import infrastructure.{EnvVarFeatureFlags, InMemoryPlayerRepository}
 import frontend.PlayerRoutes
 import frontend.HealthCheckRoutes
-import frontend.features.myteam.MyTeamRoutes
+import frontend.features.myteam.{InMemoryMyTeamQueries, MyTeamHandlers, MyTeamRoutes}
 import config.AppConfig
 
 object Main extends IOApp.Simple:
@@ -24,10 +24,12 @@ object Main extends IOApp.Simple:
 
       flags = new EnvVarFeatureFlags(config.enableAdvancedStats)
       repo <- InMemoryPlayerRepository.make
+      myTeamQueries <- InMemoryMyTeamQueries.make
+      myTeamHandlers = MyTeamHandlers(config.isDevelopment, myTeamQueries)
 
       httpApp = (Router(
         "" -> PlayerRoutes(repo, flags).routes,
-        "" -> MyTeamRoutes(config.isDevelopment).routes,
+        "" -> MyTeamRoutes(myTeamHandlers).routes,
         "" -> HealthCheckRoutes().routes
       ) <+> assetRoutes).orNotFound
 
