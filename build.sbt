@@ -7,6 +7,7 @@ val cirisVersion = "3.15.0"
 val munitVersion = "2.2.0"
 val scalatagsVersion = "0.13.1"
 val http4sScalatagsVersion = "0.25.3"
+val jsoupVersion = "1.22.2"
 
 lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging, DockerPlugin)
@@ -26,7 +27,8 @@ lazy val root = (project in file("."))
       "org.tpolecat"  %% "skunk-core"          % skunkVersion,
 
       // Testing (MUnit)
-      "org.typelevel" %% "munit-cats-effect"   % munitVersion,
+      "org.typelevel" %% "munit-cats-effect"   % munitVersion % Test,
+      "org.jsoup"      % "jsoup"               % jsoupVersion % Test,
 
       // HTML Templating (ScalaTags)
       "com.lihaoyi"   %% "scalatags"           % scalatagsVersion,

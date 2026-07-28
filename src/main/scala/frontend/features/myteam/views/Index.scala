@@ -6,6 +6,8 @@ import scalatags.Text.all.*
 import frontend.features.myteam.viewmodels.MyTeamPlayerView
 
 def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[String] =
+  val dataTestId = attr("data-testid")
+
   val assetTags: Seq[Frag] =
     if isDev then
       Seq(
@@ -40,11 +42,11 @@ def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[Strin
             ),
             tbody(
               players.map { player =>
-                tr(cls := "data-row")(
-                  td(cls := "data-cell font-medium")(player.name),
-                  td(cls := "data-cell")(player.age),
-                  td(cls := "data-cell")(player.position),
-                  td(cls := "data-cell text-gray-500")(player.proTeam)
+                tr(cls := "data-row", dataTestId := "player-row")(
+                  td(cls := "data-cell font-medium", dataTestId := "player-name")(player.name),
+                  td(cls := "data-cell", dataTestId := "player-age")(player.age),
+                  td(cls := "data-cell", dataTestId := "player-position")(player.position),
+                  td(cls := "data-cell text-gray-500", dataTestId := "player-pro-team")(player.proTeam)
                 )
               }
             )
