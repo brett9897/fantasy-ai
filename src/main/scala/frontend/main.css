@@ -1,3 +1,58 @@
 @import "tailwindcss";
 
-@source "./features*/views/**/*.scala"
+@source "./features*/views/**/*.scala";
+
+@theme {
+    --font-sans: "Inter", sans-serif;
+    --font-display: "Teko", "Oswald", sans-serif;
+}
+
+@layer base {
+    html {
+        @apply font-sans;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-display;
+    }
+
+    body {
+        @apply bg-emerald-50 min-h-screen;
+    }
+}
+
+@layer components {
+    .sports-card {
+        @apply bg-white shadow-md rounded overflow-hidden;
+    }
+
+    .nav-header {
+        @apply bg-emerald-800 text-white p-4 shadow-sm;
+    }
+
+    /* Table Components */
+    .sports-table {
+        @apply w-full text-left border-collapse;
+
+        .table-header {
+            @apply bg-emerald-700 text-white tracking-wide text-sm border-b-2 border-emerald-900;
+
+            th {
+                @apply p-3 font-display font-normal;
+            }
+        }
+
+        .data-row {
+            @apply hover:bg-emerald-100 transition-colors duration-150;
+        }
+
+        .data-cell {
+            @apply p-3 border-b border-gray-200 text-gray-800 tabular-nums;
+        }
+    }
+
+    /* Buttons */
+    .btn-primary {
+        @apply bg-amber-500 hover:bg-amber-400 text-emerald-950 font-display font-medium py-2 px-6 rounded shadow-sm transition-colors;
+    }
+}

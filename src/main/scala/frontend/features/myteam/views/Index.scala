@@ -5,7 +5,7 @@ import scalatags.Text
 import scalatags.Text.all.*
 import frontend.features.myteam.viewmodels.MyTeamPlayerView
 
-def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[String] = {
+def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[String] =
   val assetTags: Seq[Frag] =
     if isDev then
       Seq(
@@ -22,32 +22,34 @@ def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[Strin
       tag("title")("Fantasy AI | My Team"),
       meta(charset := "UTF-8"),
       meta(name := "viewport", content := "width=device-width, initial-scale=1.0"),
+      link(href := "https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Oswald:wght@500;700&family=Teko:wght@500;700&display=swap", rel := "stylesheet"),
       assetTags
     ),
-    body(cls := "bg-gray-100 p-8")(
-      div(cls := "max-w-4xl mx-auto bg-white rounded shadow")(
-        h1(cls := "text-2xl font-bold p-4 border-b")("My Roster"),
-        table(cls := "w-full text-left border-collapse")(
-          thead(cls := "bg-gray-50")(
-            tr(
-              th(cls := "p-4 border-b font-semibold text-gray-600")("Name"),
-              th(cls := "p-4 border-b font-semibold text-gray-600")("Age"),
-              th(cls := "p-4 border-b font-semibold text-gray-600")("Position"),
-              th(cls := "p-4 border-b font-semibold text-gray-600")("Team")
-            )
-          ),
-          tbody(
-            players.map { player =>
-              tr(cls := "hover:bg-gray-50")(
-                td(cls := "p-4 border-b font-medium")(player.name),
-                td(cls := "p-4 border-b font-medium")(player.age),
-                td(cls := "p-4 border-b font-medium")(player.position),
-                td(cls := "p-4 border-b font-medium")(player.proTeam)
+    body()(
+      tag("main")(cls := "max-w-5xl mx-auto p-6")(
+        div(cls := "sports-card")(
+          h2(cls := "text-xl p-4 bg-white border-b text-gray-800")("My Roster"),
+          table(cls := "sports-table")(
+            thead(cls := "table-header")(
+              tr(
+                th("Name"),
+                th("Age"),
+                th("Position"),
+                th("Team")
               )
-            }
+            ),
+            tbody(
+              players.map { player =>
+                tr(cls := "data-row")(
+                  td(cls := "data-cell font-medium")(player.name),
+                  td(cls := "data-cell")(player.age),
+                  td(cls := "data-cell")(player.position),
+                  td(cls := "data-cell text-gray-500")(player.proTeam)
+                )
+              }
+            )
           )
         )
       )
     )
   )
-      }

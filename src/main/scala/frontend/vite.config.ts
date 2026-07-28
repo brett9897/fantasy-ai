@@ -1,17 +1,36 @@
-import { defineConfig } from "vite";
+import { defineConfig, ViteDevServer } from "vite";
 import tailwindcss from "@tailwindcss/vite";
-import fullReload from "vite-plugin-full-reload";
+
+const http4sBackendWatchPlugin = () => {
+    let backendWasDown = false;
+    const BACKEND_URL = 'http://localhost:8080/health';
+
+    return {
+        name: 'http4s-backend-watch',
+        configureServer(server: ViteDevServer) {
+            setInterval(async () => {
+                try {
+                    await fetch(BACKEND_URL);
+                    if (backendWasDown) {
+                        console.log('➡️ http4s server came back online! Triggering browser reload...');
+                        backendWasDown = false;
+                        server.ws.send({ type: 'full-reload' });
+                    }
+                } catch (error) {
+                    if (!backendWasDown) {
+                        backendWasDown = true;
+                        console.log("Backend is down!");
+                    }
+                }
+            }, 1000)
+        }
+    }
+}
 
 export default defineConfig({
     plugins: [
+        http4sBackendWatchPlugin(),
         tailwindcss(),
-        fullReload([
-            "./common/**/*.scala",
-            "./frontend/features/**/*.scala",
-            "./main.css"
-        ], {
-            delay: 2000
-        })
     ],
     server: {
       port: 5173,

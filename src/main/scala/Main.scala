@@ -9,6 +9,7 @@ import org.http4s.server.staticcontent.resourceServiceBuilder
 import com.comcast.ip4s.*
 import infrastructure.{EnvVarFeatureFlags, InMemoryPlayerRepository}
 import frontend.PlayerRoutes
+import frontend.HealthCheckRoutes
 import frontend.features.myteam.MyTeamRoutes
 import config.AppConfig
 
@@ -17,16 +18,17 @@ object Main extends IOApp.Simple:
   def run: IO[Unit] =
     val assetRoutes: HttpRoutes[IO] =
       resourceServiceBuilder[IO]("/public").toRoutes
-      
+
     for
       config <- AppConfig.load
 
       flags = new EnvVarFeatureFlags(config.enableAdvancedStats)
       repo <- InMemoryPlayerRepository.make
-      
+
       httpApp = (Router(
         "" -> PlayerRoutes(repo, flags).routes,
-        "" -> MyTeamRoutes(config.isDevelopment).routes
+        "" -> MyTeamRoutes(config.isDevelopment).routes,
+        "" -> HealthCheckRoutes().routes
       ) <+> assetRoutes).orNotFound
 
       _ <- IO.println(s"Starting Fantasy Sports AI on http://localhost:${config.port}")
