@@ -8,6 +8,7 @@ env:
   REGION: us-central1
   REPO_NAME: fantasy-ai-repo
   SERVICE_NAME: fantasy-ai
+  ASSETS_VERSION: ${{ github.sha }}
 
 jobs:
   deploy:
@@ -70,3 +71,5 @@ jobs:
           region: ${{ env.REGION }}
           image: ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
           flags: '--allow-unauthenticated'
+          env_vars: |
+            ASSETS_VERSION=${{ env.ASSETS_VERSION }}

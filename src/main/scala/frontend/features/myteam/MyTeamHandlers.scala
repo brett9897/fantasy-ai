@@ -7,11 +7,13 @@ import org.http4s.dsl.io.*
 import org.http4s.scalatags.*
 import views.*
 
-class MyTeamHandlers(isDev: Boolean, myTeamQueries: MyTeamQueries):
-    def handleMyTeamIndexGet: IO[Response[IO]] =
+class MyTeamHandlers(isDev: Boolean, assetsVersion: String, myTeamQueries: MyTeamQueries):
+    def handleMyTeamIndexGet: IO[Response[IO]] = {
+      val htmlIndexView = Index(isDev, assetsVersion)
       for
         roster <- myTeamQueries.loadMyTeamPlayersView
-        htmlResponse = Index(isDev)(roster) 
+        htmlResponse = htmlIndexView(roster) 
         response <- Ok(htmlResponse)
       yield response
+    }
     
