@@ -5,7 +5,7 @@ import scalatags.Text
 import scalatags.Text.all.*
 import frontend.features.myteam.viewmodels.MyTeamPlayerView
 
-def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[String] =
+def Index(isDev: Boolean, assetsVersion: String) (players: List[MyTeamPlayerView]): Text.TypedTag[String] =
   val dataTestId = attr("data-testid")
 
   val assetTags: Seq[Frag] =
@@ -16,7 +16,7 @@ def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[Strin
       )
     else
       Seq(
-        link(rel := "stylesheet", href := "/assets/app.css")
+        link(rel := "stylesheet", href := s"/assets/app.css?$assetsVersion")
       )
 
   html(

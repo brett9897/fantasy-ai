@@ -9,7 +9,8 @@ import com.comcast.ip4s.{Port, port}
 case class AppConfig(
   isDevelopment: Boolean,
   port: Port,
-  enableAdvancedStats: Boolean
+  enableAdvancedStats: Boolean,
+  assetsVersion: String
 )
 
 object AppConfig:
@@ -29,8 +30,12 @@ object AppConfig:
       .as[Boolean]
       .default(false)
 
-    (environmentConfig, portConfig, statsToggleConfig).parMapN { (environment, port, statsToggle) =>
+    val assetsVersionConfig = env("ASSETS_VERSION")
+      .as[String]
+      .default("local")
+
+    (environmentConfig, portConfig, statsToggleConfig, assetsVersionConfig).parMapN { (environment, port, statsToggle, assetsVersion) =>
       val isDevelopment = environment.toUpperCase() == "DEVELOPMENT"
 
-      AppConfig(isDevelopment, port, statsToggle)
+      AppConfig(isDevelopment, port, statsToggle, assetsVersion)
     }.load[IO]

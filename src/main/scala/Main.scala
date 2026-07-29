@@ -25,7 +25,7 @@ object Main extends IOApp.Simple:
       flags = new EnvVarFeatureFlags(config.enableAdvancedStats)
       repo <- InMemoryPlayerRepository.make
       myTeamQueries <- InMemoryMyTeamQueries.make
-      myTeamHandlers = MyTeamHandlers(config.isDevelopment, myTeamQueries)
+      myTeamHandlers = MyTeamHandlers(config.isDevelopment, config.assetsVersion, myTeamQueries)
 
       httpApp = (Router(
         "" -> PlayerRoutes(repo, flags).routes,
