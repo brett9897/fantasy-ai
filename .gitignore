@@ -8,6 +8,8 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/dataSources.xml
+.idea/dataSources.local.xml
 *.iws
 *.iml
 *.ipr
@@ -53,3 +55,6 @@ build/
 /src/main/scala/frontend/resources/public/assets/*.js
 /src/main/scala/frontend/resources/public/assets/*.ts
 /src/main/scala/frontend/resources/public/assets/*.css
+
+### Docker ###
+.env

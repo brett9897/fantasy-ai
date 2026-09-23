@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: fantasy-ai-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-fantasy_db}
+      POSTGRES_USER: ${DB_USER:-fantasy_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-fantasy_password}
+    # No ports exposed directly to host or internet
+    networks:
+      - db-internal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-fantasy_user} -d ${DB_NAME:-fantasy_db}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  db-proxy:
+    image: haproxy:alpine
+    container_name: fantasy-ai-db-proxy
+    restart: always
+    ports:
+      # Bind only to localhost to prevent LAN/WAN access
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - db-internal
+
+networks:
+  db-internal:
+    internal: true
+
+volumes:
+  postgres_data:
