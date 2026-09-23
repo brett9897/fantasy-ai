@@ -9,9 +9,9 @@ class InMemoryPlayerRepository(state: Ref[IO, Map[PlayerId, Player]]) extends Pl
   override def findById(id: PlayerId): IO[Option[Player]] =
     state.get.map(map => map.get(id))
 
-  override def findByTeam(sport: SportCode, proTeam: String): IO[List[Player]] =
+  override def findByTeam(league: LeagueCode, proTeam: String): IO[List[Player]] =
     state.get.map { map =>
-      map.values.filter(p => p.sport == sport && p.proTeam == proTeam).toList
+      map.values.filter(p => p.league == league && p.proTeam == proTeam).toList
     }
 
   override def save(player: Player): IO[Unit] =

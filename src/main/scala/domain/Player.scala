@@ -13,13 +13,18 @@ object PlayerId:
   extension(id: PlayerId)
     def value: UUID = id
 
-enum SportCode:
-  case NFL, MLB
+enum LeagueCode:
+  case MLB, MILB, NHL, AHL, NFL, UFL
+
+  def sport: String = this match
+    case MLB | MILB => "Baseball"
+    case NHL | AHL  => "Hockey"
+    case NFL | UFL  => "Football"
 
 case class Player (
   id: PlayerId,
   externalApiId: String,
   fullName: String,
-  sport: SportCode,
+  league: LeagueCode,
   proTeam: String
 )

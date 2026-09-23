@@ -10,6 +10,7 @@ target/
 .idea/libraries/
 .idea/dataSources.xml
 .idea/dataSources.local.xml
+.idea/sqldialects.xml
 *.iws
 *.iml
 *.ipr
@@ -58,3 +59,7 @@ build/
 
 ### Docker ###
 .env
+
+### Junie ###
+.junie/*
+!.junie/AGENTS.md

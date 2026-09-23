@@ -18,7 +18,7 @@ class PlayerRoutes(repo: PlayerRepository, flags: FeatureFlags):
         case Some(player) =>
           val htmlResponse = div(cls := "p-4 border rounded shadow-sm bg-white max-w-sm",
             _root_.scalatags.Text.all.h2(cls := "text-xl font-bold text-gray-900", player.fullName),
-            p(cls := "text-gray-600", s"Sport: ${player.sport} | Team: ${player.proTeam}"),
+            p(cls := "text-gray-600", s"League: ${player.league} | Team: ${player.proTeam}"),
 
             // 3. Custom HTMX attributes use the `attr()` function
             button(
@@ -40,7 +40,7 @@ class PlayerRoutes(repo: PlayerRepository, flags: FeatureFlags):
       }
     case GET -> Root / "players" / "seed" =>
       val newId = PlayerId.generate()
-      val player = Player(newId, "tank_123", "Bobby Witt Jr.", SportCode.MLB, "KC")
+      val player = Player(newId, "tank_123", "Bobby Witt Jr.", LeagueCode.MLB, "KC")
       val htmlResponse = div(cls := "p-4 bg-green-100 text-green-800 rounded border border-green-300",
         p(cls := "font-bold", s"Seeded player! ID: ${newId.value}")
       )

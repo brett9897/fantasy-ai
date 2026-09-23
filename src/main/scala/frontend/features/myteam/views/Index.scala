@@ -29,9 +29,9 @@ def Index(isDev: Boolean) (players: List[MyTeamPlayerView]): Text.TypedTag[Strin
     ),
     body()(
       tag("main")(cls := "max-w-5xl mx-auto p-6")(
-        div(cls := "sports-card")(
+        div(cls := "league-card")(
           h2(cls := "text-xl p-4 bg-white border-b text-gray-800")("My Roster"),
-          table(cls := "sports-table")(
+          table(cls := "league-table")(
             thead(cls := "table-header")(
               tr(
                 th("Name"),
